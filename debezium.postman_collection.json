@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "07353b1a-99c8-4597-ba75-b5130ff26be5",
+		"name": "Debezium",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47479232",
+		"_collection_link": "https://gauravag-dev19-4278101.postman.co/workspace/Gaurav-Agrawal's-Workspace~4e4d7fc3-32ec-47a4-8fa0-6fdcbc8b4bcd/collection/47479232-07353b1a-99c8-4597-ba75-b5130ff26be5?action=share&source=collection_link&creator=47479232"
+	},
+	"item": [
+		{
+			"name": "Register Connector",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"mysql-cdc-connector\",\n    \"config\": {\n        \"connector.class\": \"io.debezium.connector.mysql.MySqlConnector\",\n        \"tasks.max\": \"1\",\n        \"database.hostname\": \"mysql_demo\", //\"host.docker.internal\" (this will also work fine as exposed on host machine port)\n        \"database.port\": \"3306\",\n        \"database.user\": \"debezium\",\n        \"database.password\": \"Dbz12345!\",\n        \"database.server.id\": \"184054\",\n        \"database.server.name\": \"mysql_server\",\n        \"database.include.list\": \"testdb\",\n        \"table.include.list\": \"testdb.users\",\n        \"database.history.kafka.bootstrap.servers\": \"kafka:9092\",\n        \"database.history.kafka.topic\": \"schema-changes.testdb\",\n        \"include.schema.changes\": \"true\",\n        \"database.allowPublicKeyRetrieval\": \"true\",\n        \"database.useSSL\": \"false\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "See Connector Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/connectors/mysql-cdc-connector/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						"mysql-cdc-connector",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Connector",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/connectors/mysql-cdc-connector",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						"mysql-cdc-connector"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
